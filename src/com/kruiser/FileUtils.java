@@ -61,7 +61,6 @@ public final class FileUtils {
                 bw.write(item);
                 bw.newLine();
             }
-            bw.flush(); //не уверен, что это необходимо, но хуже не будет
         } catch(IOException e) {
             System.err.println(e);
             throw new UncheckedIOException(e);
