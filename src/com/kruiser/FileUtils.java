@@ -21,7 +21,7 @@ public final class FileUtils {
     }
 
     public static boolean exists(Path p) {
-        return Files.exists(p);
+        return Files.exists(p) && !Files.isDirectory(p);
     }
 
     public static List<String> readAll(String path) throws IOException {
@@ -32,7 +32,10 @@ public final class FileUtils {
         return readAll(Paths.get(file.getPath()));
     }
 
-    public static List<String> readAll(Path path) {
+    public static List<String> readAll(Path path) throws FileNotFoundException{
+        if(!exists(path)) {
+            throw new FileNotFoundException("file not found");
+        }
         List<String> res = new ArrayList<String>();
         try(Scanner scan = new Scanner(path)) {
             while (scan.hasNextLine()) {
