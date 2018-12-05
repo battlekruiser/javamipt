@@ -24,13 +24,6 @@ public final class FileUtils {
         return Files.exists(p);
     }
 
-    private static void readAllFromScanner(Scanner s, List<String> l) {
-        while (s.hasNextLine()) {
-            l.add(s.nextLine());
-        }
-        s.close();
-    }
-
     public static List<String> readAll(String path) throws IOException {
         return readAll(Paths.get(path));
     }
@@ -39,10 +32,16 @@ public final class FileUtils {
         return readAll(Paths.get(file.getPath()));
     }
 
-    public static List<String> readAll(Path path) throws IOException {
+    public static List<String> readAll(Path path) {
         List<String> res = new ArrayList<String>();
-        Scanner scan = new Scanner(path);
-        readAllFromScanner(scan, res);
+        try(Scanner scan = new Scanner(path)) {
+            while (scan.hasNextLine()) {
+                res.add(scan.nextLine());
+            }
+        } catch(IOException e) {
+            System.err.println(e);
+            throw new UncheckedIOException(e);
+        }
         return res;
     }
 
@@ -56,15 +55,17 @@ public final class FileUtils {
     }
 
     //перезаписывает файл целиком
-    public static void writeAll(Path path, List<String> list) throws IOException {
-        BufferedWriter bw = Files.newBufferedWriter(path);
-        ListIterator<String> iter = list.listIterator();
-        while(iter.hasNext()) {
-            bw.write(iter.next());
-            bw.newLine();
+    public static void writeAll(Path path, List<String> list){
+        try(BufferedWriter bw = Files.newBufferedWriter(path)) {
+            for(String item: list) {
+                bw.write(item);
+                bw.newLine();
+            }
+            bw.flush(); //не уверен, что это необходимо, но хуже не будет
+        } catch(IOException e) {
+            System.err.println(e);
+            throw new UncheckedIOException(e);
         }
-        bw.flush(); //не уверен, что это необходимо, но хуже не будет
-        bw.close();
     }
 
 
