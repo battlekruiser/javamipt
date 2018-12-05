@@ -15,6 +15,7 @@ public class Main {
         int b = (int) (Math.random() * 100 + 1);
         int t = a > b ? a : b;
         int t2 = a + b - t;
+
         List<String> raw, input;
 
         //input

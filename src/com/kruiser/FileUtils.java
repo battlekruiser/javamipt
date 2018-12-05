@@ -32,9 +32,9 @@ public final class FileUtils {
         return readAll(Paths.get(file.getPath()));
     }
 
-    public static List<String> readAll(Path path) throws FileNotFoundException{
+    public static List<String> readAll(Path path) {
         if(!exists(path)) {
-            throw new FileNotFoundException("file not found");
+            throw new IllegalArgumentException("file at " + path.toString() + " not found");
         }
         List<String> res = new ArrayList<String>();
         try(Scanner scan = new Scanner(path)) {
