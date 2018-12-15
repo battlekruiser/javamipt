@@ -48,12 +48,12 @@ public class Main {
         if (a > b) {
             result = new HashMap<String, Integer>();
             for(int i = 0; i < a; i++) {
-                result.put(input.get(i), i <= b ? numbers.get(i) : null);
+                result.put(input.get(i), i < b ? numbers.get(i) : null);
             }
         } else {
             result = new HashMap<Integer, String>();
             for(int i = 0; i < b; i++) {
-                result.put(numbers.get(i), i <= a ? numbers.get(i) : null);
+                result.put(numbers.get(i), i < a ? input.get(i) : null);
             }
         }
 
